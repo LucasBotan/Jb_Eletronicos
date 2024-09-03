@@ -13,17 +13,27 @@ namespace CRMagazine
 {
     public partial class frmInserirChekListVistoria : Form
     {
-        public frmInserirChekListVistoria()
+        public frmInserirChekListVistoria(string TipoEntrada)
         {
             InitializeComponent();
+            tipoEntrada = TipoEntrada;
         }
 
         Conexao cx = new Conexao();
         Consulta consulta = new Consulta();
 
+        public string tipoEntrada = "";
         private void frmInserirChekListVistoria_Load(object sender, EventArgs e)
         {
             FormatarGridAoIniciar();
+            if(tipoEntrada == "VAREJISTA")
+            {
+                cboTipoEquip.Text = tipoEntrada;
+                cboEspecie.Text = tipoEntrada;
+                txtEquipamento.Text = tipoEntrada;
+                txtEspecie.Text = tipoEntrada;
+                lblTitulo.Text = "CADASTRAR VAREJISTA";
+            }
         }
 
         public void FormatarGridAoIniciar()
@@ -94,10 +104,12 @@ namespace CRMagazine
             {
                 btnCriarItem.Visible = false;
             }
-
-            dgvConsulta.DataSource = null;
-            consulta.LimparControles(this);
-            PreencherComboboxTipoEquip();
+            if (tipoEntrada != "VAREJISTA")
+            {
+                dgvConsulta.DataSource = null;
+                consulta.LimparControles(this);
+                PreencherComboboxTipoEquip();
+            }
         }
 
         public void PreencherComboboxTipoEquip()

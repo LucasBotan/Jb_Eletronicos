@@ -38,6 +38,7 @@ namespace CRMagazine
             PreencherComboboxVarejista();
             ContadorDeProducao();
             chbIrParaReparo.Checked = false;
+            consulta.ListarVarejistas(cboVarejista);
         }
 
 
@@ -126,6 +127,20 @@ namespace CRMagazine
                     else
                     {
                         MessageBox.Show("RG AINDA NÃO FOI PRE CADASTRADO.");
+                    }
+                }
+                else if (cboVarejista.Text == "LOJAS CEM")
+                {
+                    consulta.ConsultarNFEntradaPorPedido(txtOS.Text);
+                    //consultar a notafiscal pelo Pedido (o pedido é igual a OS)
+                    if (consulta.Retorno == "ok")
+                    {
+                        txtNFEntrada.Text = consulta.Nota_pre;
+                        txtCodVarejo.Text = consulta.Codigo_pre;
+                    }
+                    else
+                    {
+                        MessageBox.Show("PEDIDO NÃO FOI ENCONTRADO NAS NFs DA LOJAS CEM.");
                     }
                 }
                 txtCodVarejo.Select();
@@ -254,7 +269,7 @@ namespace CRMagazine
                     //consulta.consultarSimNao();
                     //if(consulta.qntNaPosicao != txtCodVarejo.Text && cboNotaFiscal.Text.Length > 0)
                     
-                    if(cboVarejista.Text == "MULTIVAREJO")  // se for multivarejo tem que baixar da nota exata, pq a multi amarra a nota ao RG
+                    if(cboVarejista.Text == "MULTIVAREJO" || cboVarejista.Text == "LOJAS CEM")  // se for multivarejo tem que baixar da nota exata, pq a multi amarra a nota ao RG
                     {
                         consulta.comando = "";
                         consulta.comando = "SELECT count(NotaFiscal) as Quantidade FROM NotaFiscal where idNotaFiscal = (select top 1 idNotaFiscal from NotaFiscal where CodVarejo = '" + txtCodVarejo.Text + "' and QntRestanteEnt > 0 and Varejista = '" + cboVarejista.Text + "' and NotaFiscal = '" + txtNFEntrada.Text + "')";
@@ -856,7 +871,7 @@ namespace CRMagazine
 
                 }
                  */
-                if (cboVarejista.Text == "MULTIVAREJO")  // se for multivarejo tem que baixar da nota exata, pq a multi amarra a nota ao RG
+                if (cboVarejista.Text == "MULTIVAREJO" || cboVarejista.Text == "LOJAS CEM")  // se for multivarejo tem que baixar da nota exata, pq a multi amarra a nota ao RG
                 {
                     consulta.comando = "";
                     consulta.comando = "SELECT count(NotaFiscal) as Quantidade FROM NotaFiscal where idNotaFiscal = (select top 1 idNotaFiscal from NotaFiscal where CodVarejo = '" + txtCodVarejo.Text + "' and QntRestanteEnt > 0 and Varejista = '" + cboVarejista.Text + "' and NotaFiscal = '" + txtNFEntrada.Text + "')";
@@ -890,7 +905,7 @@ namespace CRMagazine
 
                         //EXEMPLO que é para dar certo --> é só revisar
 
-                        if (cboVarejista.Text == "MULTIVAREJO")  // se for multivarejo tem que baixar da nota exata, pq a multi amarra a nota ao RG
+                        if (cboVarejista.Text == "MULTIVAREJO" || cboVarejista.Text == "LOJAS CEM")  // se for multivarejo tem que baixar da nota exata, pq a multi amarra a nota ao RG
                         {
                             consulta.comando = "";
                             consulta.comando = "update NotaFiscal set QntRestanteEnt = QntRestanteEnt - 1 where idNotaFiscal = (select top 1 idNotaFiscal from NotaFiscal where CodVarejo = '" + txtCodVarejo.Text + "' and QntRestanteEnt > 0 and Varejista = '" + cboVarejista.Text + "' and NotaFiscal = '" + txtNFEntrada.Text + "' order by CONVERT(date, Data, 103) ASC) ";
@@ -908,7 +923,7 @@ namespace CRMagazine
 
 
                         //======Insere na tabela Historico==========================
-                        if (cboVarejista.Text == "VIAVAREJO" || cboVarejista.Text == "MULTIVAREJO" || cboVarejista.Text == "CNOVA")
+                        if (cboVarejista.Text == "VIAVAREJO" || cboVarejista.Text == "MULTIVAREJO" || cboVarejista.Text == "CNOVA" || cboVarejista.Text == "LOJAS CEM")
                         {
                             string StatusHistorico = "ENTRADA";
                             consulta.DataAtual();
@@ -980,7 +995,7 @@ namespace CRMagazine
             DateTime Mais30 = data_compra.AddDays(30);
             string DataMais30 = Mais30.ToString("dd/MM/yyyy");
 
-            imprimir.EtiquetaEntrada(txtOS.Text, consulta.dataNormal, ); //DataMais30, txtNFEntrada.Text
+            imprimir.EtiquetaEntrada(txtOS.Text, consulta.dataNormal, txtDescricao.Text, txtCodVarejo.Text, ean); //DataMais30, txtNFEntrada.Text
 
             string codZPL = imprimir.s;
 
@@ -1016,10 +1031,10 @@ namespace CRMagazine
                 MessageBox.Show(x.Message);
             }
 
-            if(cboVarejista.Text == "VIAVAREJO" || cboVarejista.Text == "MULTIVAREJO" || cboVarejista.Text == "CNOVA")
+            if(cboVarejista.Text == "VIAVAREJO" || cboVarejista.Text == "MULTIVAREJO" || cboVarejista.Text == "CNOVA" || cboVarejista.Text == "LOJAS CEM")
             {
                 consulta.InsereNoBanco(txtOS.Text, txtCodVarejo.Text, txtDescricao.Text, txtSKU.Text, consulta.data, "REPARO", txtTipo.Text, cboVarejista.Text, txtNS.Text, cboFuncEst.Text + " / " + txtDefeitoRelatado.Text, txtFilial.Text, DataGaiola);
-                if (cboVarejista.Text == "MULTIVAREJO") // para lançar a NF, pq o multivareo a nf é amarrada ao RG
+                if (cboVarejista.Text == "MULTIVAREJO" || cboVarejista.Text == "LOJAS CEM") // para lançar a NF, pq o multivareo a nf é amarrada ao RG
                 {
                     consulta.comando = "update Chamados set NotaFiscal = '" + txtNFEntrada.Text + "' where OS = '" + txtOS.Text + "' and Status = 'REPARO' ";
                     consulta.Atualizar();
@@ -1217,7 +1232,7 @@ namespace CRMagazine
             consulta.LimparControles(this);
             ContadorDeProducao();
             txtOS.Select();
-            if (cboVarejista.Text != "VIAVAREJO" && cboVarejista.Text != "CNOVA" && cboVarejista.Text != "MULTIVAREJO")
+            if (cboVarejista.Text != "VIAVAREJO" && cboVarejista.Text != "CNOVA" && cboVarejista.Text != "MULTIVAREJO" && cboVarejista.Text != "LOJAS CEM")
             {
                 txtOS.Text = "JBINFO";
             }
@@ -1704,7 +1719,7 @@ namespace CRMagazine
 
         private void cboVarejista_SelectedValueChanged(object sender, EventArgs e)
         {
-            if (cboVarejista.Text != "VIAVAREJO" && cboVarejista.Text != "CNOVA" && cboVarejista.Text != "MULTIVAREJO")
+            if (cboVarejista.Text != "VIAVAREJO" && cboVarejista.Text != "CNOVA" && cboVarejista.Text != "MULTIVAREJO" && cboVarejista.Text != "LOJAS CEM")
             {
                 txtOS.Text = "JBINFO";
                 txtOS.Select();
@@ -1717,6 +1732,11 @@ namespace CRMagazine
 
             if (cboVarejista.Text == "MULTIVAREJO")
             {
+                txtNFEntrada.Visible = true;
+            }
+            else if (cboVarejista.Text == "LOJAS CEM")
+            {
+                //txtNFEntrada.Text = "";
                 txtNFEntrada.Visible = true;
             }
             else

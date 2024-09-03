@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Drawing.Printing;
 using System.Media;
 using System.IO;
+using System.Data;
 
 namespace CRMagazine
 {
@@ -321,6 +322,42 @@ namespace CRMagazine
             cx.Desconectar();
         }
 
+        public void ConsultarNFEntradaPorPedido(string pedido)
+        {
+            try
+            {
+                Retorno = "";
+                string sql = "";
+                sql += $"Select * from NotaFiscal where Pedido = '{pedido}'";
+                cx.Conectar();
+                SqlCommand cd = new SqlCommand();
+                cd.Connection = cx.c;
+                cd.CommandText = sql;
+                SqlDataReader dr = cd.ExecuteReader();
+                if (dr.Read())
+                {
+                    Retorno = "ok";
+                    Codigo_pre = dr["CodVarejo"].ToString();
+                    Nota_pre = dr["NotaFiscal"].ToString();
+                }
+                else
+                {
+                    Retorno = "falha";
+                    Codigo_pre = "";
+                    Nota_pre = "";
+                }
+                dr.Close();
+            }
+            catch (SqlException x)
+            {
+                MessageBox.Show("FALHA AO CONSULTAR PRE ENTRADA: \n" + x.Message);
+            }
+            finally
+            {
+                cx.Desconectar();
+            }            
+        }
+
 
         public string NF_NotaFiscal = "";
         public string NF_Data = "";
@@ -411,6 +448,33 @@ namespace CRMagazine
                 MessageBox.Show("FALHA AO CONSULTAR NF DE SAIDA: \n" + x.Message);
             }
             cx.Desconectar();
+        }
+
+        public void ListarVarejistas(ComboBox comboBox)
+        {
+            try
+            {
+                // Lógica para preencher o ComboBox com os varejistas
+                SqlDataAdapter da;
+                DataSet ds = new DataSet();
+                string sql = "SELECT Item FROM CheckListGeral WHERE TipoEquip = 'VAREJISTA' ORDER BY Item ASC";
+                cx.Conectar();
+                da = new SqlDataAdapter(sql, cx.c);
+                cx.Desconectar();
+                da.Fill(ds, "CheckListGeral");
+                comboBox.ValueMember = "Item";
+                comboBox.DisplayMember = "Item";
+                comboBox.DataSource = ds.Tables["CheckListGeral"];
+                comboBox.Text = null;
+            }
+            catch(Exception x)
+            {
+                MessageBox.Show(x.Message);
+            }
+            finally
+            {
+                cx.Desconectar();
+            }
         }
 
 
@@ -987,9 +1051,10 @@ namespace CRMagazine
             myPlayer.Play();
         }
 
-
+        public int LinhasAfetadas = 0;
         public void Atualizar()
         {
+            LinhasAfetadas = 0;
             Retorno = "";
             string sql = "";
             //string status = "RUNIN";
@@ -1003,15 +1068,20 @@ namespace CRMagazine
                 SqlCommand cd = new SqlCommand();
                 cd.Connection = cx.c;
                 cd.CommandText = sql;
-                cd.ExecuteNonQuery();
+                //cd.ExecuteNonQuery();
+                LinhasAfetadas = cd.ExecuteNonQuery();
                 Retorno = "ok";
             }
             catch (Exception x)
             {
                 MessageBox.Show("ERRO ATUALIZAR: \n" + x.Message);
                 Retorno = "falha";
+                LinhasAfetadas = 0;
             }
-            cx.Desconectar();
+            finally
+            {
+                cx.Desconectar();
+            }
         }
 
         public void AtualizarSP()

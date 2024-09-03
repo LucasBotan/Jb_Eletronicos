@@ -100,6 +100,7 @@
             this.eNDEREÇAMENTOToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.lANÇARNFSAIDAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cADASTRODECLIENTESToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aLTERARCLASSIFICAÇÃOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aDMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iNSERIRMODELOToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.uSUARIOSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -119,7 +120,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pnlSenha = new System.Windows.Forms.Panel();
-            this.aLTERARCLASSIFICAÇÃOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cADASTRARVAREJISTAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -728,6 +729,13 @@
             this.cADASTRODECLIENTESToolStripMenuItem.Text = "CADASTRO DE CLIENTES";
             this.cADASTRODECLIENTESToolStripMenuItem.Click += new System.EventHandler(this.cADASTRODECLIENTESToolStripMenuItem_Click);
             // 
+            // aLTERARCLASSIFICAÇÃOToolStripMenuItem
+            // 
+            this.aLTERARCLASSIFICAÇÃOToolStripMenuItem.Name = "aLTERARCLASSIFICAÇÃOToolStripMenuItem";
+            this.aLTERARCLASSIFICAÇÃOToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.aLTERARCLASSIFICAÇÃOToolStripMenuItem.Text = "ALTERAR CLASSIFICAÇÃO";
+            this.aLTERARCLASSIFICAÇÃOToolStripMenuItem.Click += new System.EventHandler(this.aLTERARCLASSIFICAÇÃOToolStripMenuItem_Click);
+            // 
             // aDMToolStripMenuItem
             // 
             this.aDMToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -736,7 +744,8 @@
             this.aJUSTEDEESTOQUEToolStripMenuItem,
             this.aLTERAREXCLUIRToolStripMenuItem,
             this.sUBIRPLANILHADECÓDIGOSToolStripMenuItem,
-            this.sAÍDANFPORCÓDIGOToolStripMenuItem});
+            this.sAÍDANFPORCÓDIGOToolStripMenuItem,
+            this.cADASTRARVAREJISTAToolStripMenuItem});
             this.aDMToolStripMenuItem.Enabled = false;
             this.aDMToolStripMenuItem.Name = "aDMToolStripMenuItem";
             this.aDMToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
@@ -914,12 +923,12 @@
             this.pnlSenha.Size = new System.Drawing.Size(237, 137);
             this.pnlSenha.TabIndex = 68;
             // 
-            // aLTERARCLASSIFICAÇÃOToolStripMenuItem
+            // cADASTRARVAREJISTAToolStripMenuItem
             // 
-            this.aLTERARCLASSIFICAÇÃOToolStripMenuItem.Name = "aLTERARCLASSIFICAÇÃOToolStripMenuItem";
-            this.aLTERARCLASSIFICAÇÃOToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
-            this.aLTERARCLASSIFICAÇÃOToolStripMenuItem.Text = "ALTERAR CLASSIFICAÇÃO";
-            this.aLTERARCLASSIFICAÇÃOToolStripMenuItem.Click += new System.EventHandler(this.aLTERARCLASSIFICAÇÃOToolStripMenuItem_Click);
+            this.cADASTRARVAREJISTAToolStripMenuItem.Name = "cADASTRARVAREJISTAToolStripMenuItem";
+            this.cADASTRARVAREJISTAToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.cADASTRARVAREJISTAToolStripMenuItem.Text = "CADASTRAR VAREJISTA";
+            this.cADASTRARVAREJISTAToolStripMenuItem.Click += new System.EventHandler(this.cADASTRARVAREJISTAToolStripMenuItem_Click);
             // 
             // frmInicial
             // 
@@ -1046,5 +1055,6 @@
         private System.Windows.Forms.ToolStripMenuItem sUBIRXMLSAÍDAToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cONFERÊNCIAToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aLTERARCLASSIFICAÇÃOToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cADASTRARVAREJISTAToolStripMenuItem;
     }
 }

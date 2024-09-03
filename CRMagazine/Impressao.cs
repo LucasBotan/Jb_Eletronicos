@@ -174,7 +174,7 @@ namespace CRMagazine
             s += "^PQ1,0,1,Y^XZ";
         }
 
-        public void EtiquetaSaldoMagazine(bool usarConfigDaImpressora,string Voltagem, string CodVarejo, string Filial, string EAN, string Descricao, string NS, string Classificacao)
+        public void EtiquetaSaldoMagazine(bool usarConfigDaImpressora,string Voltagem, string CodVarejo, string Filial, string EAN, string Descricao, string NS, string Classificacao, string varejista)
         {
             s = "";
             if (usarConfigDaImpressora == false)
@@ -187,7 +187,7 @@ namespace CRMagazine
             s += "^LL680";
             s += "^LS0";
             s += "^FO20,10^GB830,69,5^FS";
-            s += "^FO20,25^FB870,3,2,C,0^FR^AC,45,40^FDMAGAZINE LUIZA^FS";
+            s += "^FO20,25^FB870,3,2,C,0^FR^AC,45,40^FD"+ varejista +"^ FS";
             s += "^FO20,75^GB285,55,5^FS";
             s += "^FT30,115^A0N,30,30^FH^FDFILIAL: "+ Filial +"^FS";
             s += "^FO300,75^GB550,55,5^FS";

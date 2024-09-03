@@ -388,7 +388,7 @@ namespace CRMagazine
 
         private void iNSERIRCHECKLISTToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmInserirChekListVistoria c = new frmInserirChekListVistoria();
+            frmInserirChekListVistoria c = new frmInserirChekListVistoria("");
             c.Show();
         }
 
@@ -545,6 +545,12 @@ namespace CRMagazine
         private void aLTERARCLASSIFICAÇÃOToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmAjustesAlterarClassificacao c = new frmAjustesAlterarClassificacao(txtUsuario.Text, "");
+            c.Show();
+        }
+
+        private void cADASTRARVAREJISTAToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmInserirChekListVistoria c = new frmInserirChekListVistoria("VAREJISTA");
             c.Show();
         }
 

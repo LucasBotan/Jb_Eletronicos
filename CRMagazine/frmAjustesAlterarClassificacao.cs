@@ -83,7 +83,7 @@ namespace CRMagazine
                     consulta.comando = "update Chamados set Classificacao = '" + cbxClassificacao.Text + "' where OS = '" + txtOS.Text + "' and Status != 'FINALIZADO'";
                     consulta.Atualizar();
                     // MessageBox.Show(consulta.comando);                           
-                    if (consulta.Retorno == "ok")
+                    if (consulta.LinhasAfetadas > 0)
                     {
                         //======Insere na tabela Historico==========================
                         string StatusHistorico = "ALTERADOCLASSIFICACAO";
@@ -92,7 +92,8 @@ namespace CRMagazine
                         consulta.InsereHistorico(txtOS.Text, lblUsuario.Text, StatusHistorico, consulta.dataNormal, consulta.hora);
                         //=====fim da inserção======================================
 
-                        if (txtVarejista.Text.Contains("MAGAZINE") && chbNaoImprimir.Checked == false)
+                        if ((txtVarejista.Text.Contains("MAGAZINE") || txtVarejista.Text.Contains("B2W") || txtVarejista.Text.Contains("SHOPLOKO") || txtVarejista.Text.Contains("LOJAS CEM"))
+                            && chbNaoImprimir.Checked == false)
                         {
                             ImprimirSaldoMagazine(cbxClassificacao.Text);
                         }
@@ -126,12 +127,19 @@ namespace CRMagazine
             {
                 Voltagem = "220";
             }
+
+            string varejista = "MAGAZINE LUIZA";
+            if (!txtVarejista.Text.Contains("MAGAZINE"))
+            {
+                varejista = txtVarejista.Text;
+            }
+
             bool usarConfigDaImpressora = false;
             if (chbConfigImpressora.Checked)
             {
                 usarConfigDaImpressora = true;
             }
-            imprimir.EtiquetaSaldoMagazine(usarConfigDaImpressora, Voltagem, txtCodVarejo.Text, consulta.Filial, txtEAN.Text, txtDescricao.Text, txtNS.Text, Classificacao);
+            imprimir.EtiquetaSaldoMagazine(usarConfigDaImpressora, Voltagem, txtCodVarejo.Text, consulta.Filial, txtEAN.Text, txtDescricao.Text, txtNS.Text, Classificacao, varejista);
             string codZPL = imprimir.s;
             // SELECIONAR IMPRESSORA OU UTILIZAR A PADRÃO
             if (chbSelecionarImpressora.Checked)

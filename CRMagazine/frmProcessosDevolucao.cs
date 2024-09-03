@@ -119,7 +119,7 @@ namespace CRMagazine
                         //=====fim da inserção======================================
 
 
-                        if (txtVarejista.Text.Contains("MAGAZINE"))
+                        if (txtVarejista.Text.Contains("MAGAZINE") || txtVarejista.Text.Contains("B2W") || txtVarejista.Text.Contains("SHOPLOKO") || txtVarejista.Text.Contains("LOJAS CEM"))
                         {
                             ImprimirSaldoMagazine(Classificacao);
                         }
@@ -155,7 +155,12 @@ namespace CRMagazine
             {
                 usarConfigDaImpressora = true;
             }
-            imprimir.EtiquetaSaldoMagazine(usarConfigDaImpressora, Voltagem, txtCodVarejo.Text, consulta.Filial, txtEAN.Text, txtModelo.Text, txtNS.Text, Classificacao);
+            string varejista = "MAGAZINE LUIZA";
+            if (!txtVarejista.Text.Contains("MAGAZINE"))
+            {
+                varejista = txtVarejista.Text;
+            }
+            imprimir.EtiquetaSaldoMagazine(usarConfigDaImpressora, Voltagem, txtCodVarejo.Text, consulta.Filial, txtEAN.Text, txtModelo.Text, txtNS.Text, Classificacao, varejista);
             string codZPL = imprimir.s;
             // SELECIONAR IMPRESSORA OU UTILIZAR A PADRÃO
             if (chbSelecionarImpressora.Checked)

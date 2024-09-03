@@ -138,7 +138,7 @@ namespace CRMagazine
                 txtCodVarejo.Text = consulta.CodVarejo;
                 txtVarejista.Text = consulta.Varejista;
 
-                if (txtVarejista.Text == "MULTIVAREJO")
+                if (txtVarejista.Text == "MULTIVAREJO" || txtVarejista.Text == "LOJAS CEM")
                 {
                     txtNF.Text = consulta.NotaFiscal;
                 }
@@ -238,7 +238,7 @@ namespace CRMagazine
         // BAIXAR QNT DA NOTA FISCAL MAIS ANTIGA QUE CONTENHA O CODVAREJO E PRECISE SER BAIXADA A QUANTIDADE
         public void BaixarQntNF()
         {
-            if (txtVarejista.Text == "MULTIVAREJO")
+            if (txtVarejista.Text == "MULTIVAREJO" || txtVarejista.Text == "LOJAS CEM")
             {
                 NF = txtNF.Text;
             }

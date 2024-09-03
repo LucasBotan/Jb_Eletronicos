@@ -168,7 +168,8 @@ namespace CRMagazine
                     {
                         Imprimir();
 
-                        if (txtVarejista.Text.Contains("MAGAZINE") && txtClassificacao.Text == "SALDO")
+                        if ((txtVarejista.Text.Contains("MAGAZINE") || txtVarejista.Text.Contains("B2W") || txtVarejista.Text.Contains("SHOPLOKO") || txtVarejista.Text.Contains("LOJAS CEM"))
+                            && txtClassificacao.Text == "SALDO")
                         {
                             ImprimirSaldoMagazine();
                         }
@@ -246,7 +247,12 @@ namespace CRMagazine
             {
                 usarConfigDaImpressora = true;
             }
-            imprimir.EtiquetaSaldoMagazine(usarConfigDaImpressora, Voltagem, txtCodVarejo.Text, consulta.Filial, txtEAN.Text, txtDescricao.Text, txtNS.Text, "SALDO");
+            string varejista = "MAGAZINE LUIZA";
+            if (!txtVarejista.Text.Contains("MAGAZINE"))
+            {
+                varejista = txtVarejista.Text;
+            }
+            imprimir.EtiquetaSaldoMagazine(usarConfigDaImpressora, Voltagem, txtCodVarejo.Text, consulta.Filial, txtEAN.Text, txtDescricao.Text, txtNS.Text, "SALDO", varejista);
             string codZPL = imprimir.s;
             // SELECIONAR IMPRESSORA OU UTILIZAR A PADRÃO
             if (chbSelecionarImpressora.Checked)
@@ -730,7 +736,8 @@ namespace CRMagazine
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             Imprimir();
-            if (txtVarejista.Text.Contains("MAGAZINE") && txtClassificacao.Text == "SALDO")
+            if ((txtVarejista.Text.Contains("MAGAZINE") || txtVarejista.Text.Contains("B2W") || txtVarejista.Text.Contains("SHOPLOKO") || txtVarejista.Text.Contains("LOJAS CEM"))
+                && txtClassificacao.Text == "SALDO")
             {
                 //txtCodVarejo.Text = "123435";
                 //consulta.Filial = "DQS222";

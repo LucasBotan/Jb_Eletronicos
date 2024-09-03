@@ -37,7 +37,7 @@
             this.txtItem = new System.Windows.Forms.TextBox();
             this.dgvConsulta = new System.Windows.Forms.DataGridView();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.label7 = new System.Windows.Forms.Label();
+            this.lblTitulo = new System.Windows.Forms.Label();
             this.btnBusca = new System.Windows.Forms.Button();
             this.pnlItem = new System.Windows.Forms.Panel();
             this.btnConcluir = new System.Windows.Forms.Button();
@@ -52,8 +52,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cboAcao = new System.Windows.Forms.ComboBox();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnCriarItem = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvConsulta)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.pnlItem.SuspendLayout();
@@ -144,15 +144,15 @@
             this.pictureBox2.TabIndex = 440;
             this.pictureBox2.TabStop = false;
             // 
-            // label7
+            // lblTitulo
             // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Calibri", 30F, System.Drawing.FontStyle.Bold);
-            this.label7.Location = new System.Drawing.Point(269, 56);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(364, 49);
-            this.label7.TabIndex = 441;
-            this.label7.Text = "CHECKLIST VISTORIA";
+            this.lblTitulo.AutoSize = true;
+            this.lblTitulo.Font = new System.Drawing.Font("Calibri", 30F, System.Drawing.FontStyle.Bold);
+            this.lblTitulo.Location = new System.Drawing.Point(269, 56);
+            this.lblTitulo.Name = "lblTitulo";
+            this.lblTitulo.Size = new System.Drawing.Size(364, 49);
+            this.lblTitulo.TabIndex = 441;
+            this.lblTitulo.Text = "CHECKLIST VISTORIA";
             // 
             // btnBusca
             // 
@@ -315,17 +315,6 @@
             this.panel2.Size = new System.Drawing.Size(247, 168);
             this.panel2.TabIndex = 444;
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.pictureBox1.Image = global::CRMagazine.Properties.Resources.lupa_24x24;
-            this.pictureBox1.Location = new System.Drawing.Point(832, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(31, 26);
-            this.pictureBox1.TabIndex = 446;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Visible = false;
-            // 
             // btnCriarItem
             // 
             this.btnCriarItem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -339,6 +328,17 @@
             this.btnCriarItem.UseVisualStyleBackColor = true;
             this.btnCriarItem.Click += new System.EventHandler(this.btnCriarItem_Click);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.pictureBox1.Image = global::CRMagazine.Properties.Resources.lupa_24x24;
+            this.pictureBox1.Location = new System.Drawing.Point(832, 12);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(31, 26);
+            this.pictureBox1.TabIndex = 446;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Visible = false;
+            // 
             // frmInserirChekListVistoria
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -349,7 +349,7 @@
             this.Controls.Add(this.cboAcao);
             this.Controls.Add(this.pnlItem);
             this.Controls.Add(this.btnBusca);
-            this.Controls.Add(this.label7);
+            this.Controls.Add(this.lblTitulo);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.dgvConsulta);
             this.Controls.Add(this.label1);
@@ -380,7 +380,7 @@
         private System.Windows.Forms.TextBox txtItem;
         private System.Windows.Forms.DataGridView dgvConsulta;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblTitulo;
         private System.Windows.Forms.Button btnBusca;
         private System.Windows.Forms.Panel pnlItem;
         private System.Windows.Forms.Label lblAcao;

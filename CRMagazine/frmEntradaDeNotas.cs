@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.IO;
 using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 
 namespace CRMagazine
 {
@@ -27,6 +28,24 @@ namespace CRMagazine
         private void frmEntradaDeNotas_Load(object sender, EventArgs e)
         {
             FormatarGridTeste();
+            consultar.ListarVarejistas(cboVarejista);
+        }
+
+        public void ListarVarejistas()
+        {
+            //cboSintoma.DataSource = null;
+            SqlDataAdapter da;
+            DataSet ds = new DataSet();
+            string sql = "";
+            sql += " Select Item from CheckListGeral where TipoEquip = 'VAREJISTA' order by Item asc";
+            cx.Conectar();
+            da = new SqlDataAdapter(sql, cx.c);
+            cx.Desconectar();
+            da.Fill(ds, "CheckListGeral");
+            cboVarejista.ValueMember = "idCheckList";
+            cboVarejista.DisplayMember = "Especie";
+            cboVarejista.DataSource = ds.Tables["CheckListGeral"];
+            cboVarejista.Text = null;
         }
 
         private void btnSelecionar_Click(object sender, EventArgs e)
@@ -385,10 +404,25 @@ namespace CRMagazine
 
 
                 XmlNodeList infProt = xmlDoc.GetElementsByTagName("infProt");
-                for (int i = 0; i < dest.Count; i++)
+                for (int i = 0; i < infProt.Count; i++)
                 {
                     CHAVEACESSO = infProt[i]["chNFe"].InnerText;
                     PROTOCOLOSEFAZ = infProt[i]["nProt"].InnerText;
+                }
+
+                //EXCLUSIVO PARA LOJAS CEM - PEDIDO
+                string pedido = "";
+                string input = "";
+                XmlNodeList infAdic = xmlDoc.GetElementsByTagName("infAdic");
+                for (int i = 0; i < infAdic.Count; i++)
+                {
+                    input = infAdic[i]["infCpl"].InnerText;
+                    string pattern = @"Pedido:(\d+\.\d+\.\d+)";
+                    Match match = Regex.Match(input, pattern);
+                    if (match.Success)
+                    {
+                        pedido = match.Groups[1].Value.Replace(".", "").Trim();
+                    }
                 }
 
 
@@ -511,7 +545,7 @@ namespace CRMagazine
                     string Data= Convert.ToDateTime(DataEmissao).ToString("dd/MM/yyyy");
 
                     //string Data = DataEmissaoDT.ToString("dd/MM/yyyy");
-                    dgvConsulta.Rows.Add(CHAVEACESSO, Data, Nota, Serie, Codigo, Quantidade, Valor_Uni, NCM_PROD, Descricao, EAN);
+                    dgvConsulta.Rows.Add(CHAVEACESSO, Data, Nota, Serie, Codigo, Quantidade, Valor_Uni, NCM_PROD, Descricao, EAN, pedido);
 
                     //MessageBox.Show(CHAVEACESSO + "\r" + Nota + "\r" + Serie + "\r" + Codigo + "\r" + Quantidade);
                 }
@@ -541,7 +575,7 @@ namespace CRMagazine
         public void FormatarGridTeste()
         {
             dgvConsulta.Rows.Clear();
-            dgvConsulta.ColumnCount = 10;
+            dgvConsulta.ColumnCount = 11;
             dgvConsulta.Columns[0].Name = "CHAVEACESSO";
             dgvConsulta.Columns[1].Name = "DATAEMISSAO";
             dgvConsulta.Columns[2].Name = "NOTA";
@@ -552,7 +586,8 @@ namespace CRMagazine
             dgvConsulta.Columns[7].Name = "NCM";
             dgvConsulta.Columns[8].Name = "DESCRICAO";
             dgvConsulta.Columns[9].Name = "EAN";
-           // dgvConsulta.Columns[6].Name = "PROTOCOLO";
+            dgvConsulta.Columns[10].Name = "PEDIDO";
+            // dgvConsulta.Columns[6].Name = "PROTOCOLO";
 
             dgvConsulta.RowHeadersVisible = false;
             //dgvConsulta.Columns[0].Visible = false;
@@ -565,12 +600,12 @@ namespace CRMagazine
         }
 
 
-        public void inserirNotaFiscal(string NF, string Serie, string Chave, string Data, string Valor_uni, string NCM, string QntPorCodigo, string Codigo, string Varejista, string Descricao, string EAN, out string Feed)
+        public void inserirNotaFiscal(string NF, string Serie, string Chave, string Data, string Valor_uni, string NCM, string QntPorCodigo, string Codigo, string Varejista, string Descricao, string EAN, string Pedido, out string Feed)
         {           
             string sql = "";         
             try
             {
-                sql += " Insert into NotaFiscal (NotaFiscal, Serie, Chave, Data, Valor_uni, NCM, QntProdutos, QntRestanteEnt, CodVarejo, QntRestante, Varejista, Descricao, EAN, Conferir)";
+                sql += " Insert into NotaFiscal (NotaFiscal, Serie, Chave, Data, Valor_uni, NCM, QntProdutos, QntRestanteEnt, CodVarejo, QntRestante, Varejista, Descricao, EAN, Conferir, Pedido)";
                 sql += " Values ( ";
                 sql += " '" + NF + "', ";
                 sql += " '" + Serie + "', ";
@@ -585,7 +620,8 @@ namespace CRMagazine
                 sql += " '" + Varejista + "', ";
                 sql += " '" + Descricao + "', ";
                 sql += " '" + EAN + "', ";
-                sql += " '" + QntPorCodigo + "')";
+                sql += " '" + QntPorCodigo + "', ";
+                sql += " '" + Pedido + "')";
                 cx.Conectar();
                 SqlCommand cd = new SqlCommand();
                 cd.Connection = cx.c;
@@ -622,8 +658,9 @@ namespace CRMagazine
                 string NCM = dgvConsulta.Rows[i].Cells["NCM"].Value.ToString();
                 string Descricao = dgvConsulta.Rows[i].Cells["DESCRICAO"].Value.ToString();
                 string EAN = dgvConsulta.Rows[i].Cells["EAN"].Value.ToString();
+                string PEDIDO = dgvConsulta.Rows[i].Cells["PEDIDO"].Value.ToString();
 
-                inserirNotaFiscal(NotaFiscal, Serie, Chave, DataEmissao, Valor_uni, NCM, QntProdutos, CodVarejo, cboVarejista.Text, Descricao, EAN, out feed);
+                inserirNotaFiscal(NotaFiscal, Serie, Chave, DataEmissao, Valor_uni, NCM, QntProdutos, CodVarejo, cboVarejista.Text, Descricao, EAN, PEDIDO, out feed);
             }
             if (feed == "")
             {
